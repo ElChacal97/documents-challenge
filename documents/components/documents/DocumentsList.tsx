@@ -1,41 +1,40 @@
+import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
+import useDocument from "@/logic/hooks/useDocument";
+import { Document } from "@/types/document";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
-  FlatList,
   RefreshControl,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { COLORS, FONT_SIZES, SPACING } from "../constants";
-import { useDocuments } from "../hooks";
-import type { Document } from "../types";
-import { DocumentItem } from "./DocumentItem";
+import FlatList from "../FlatList";
+import Loader from "../Loader";
+import DocumentItem from "./DocumentItem";
 
 interface DocumentsListProps {
-  onDocumentPress: (document: Document) => void;
-  onDocumentShare: (document: Document) => void;
   viewMode: "list" | "grid";
-  onRefresh?: () => void;
-  isRefreshing?: boolean;
 }
 
-export function DocumentsList({
-  onDocumentPress,
-  onDocumentShare,
-  viewMode,
-  onRefresh,
-  isRefreshing = false,
-}: DocumentsListProps) {
-  const { data: documents, isLoading, error, refetch } = useDocuments();
+const DocumentsList = ({ viewMode = "list" }: DocumentsListProps) => {
+  const {
+    listDocuments: { data: documents, isLoading, error, refetch, isRefetching },
+  } = useDocument();
+
+  console.log("documents", documents);
 
   const handleRefresh = () => {
-    if (onRefresh) {
-      onRefresh();
-    } else {
-      refetch();
-    }
+    refetch();
+  };
+
+  const onDocumentPress = (document: Document) => {
+    console.log(document);
+  };
+
+  const onDocumentShare = (document: Document) => {
+    console.log(document);
   };
 
   const renderDocument = ({ item }: { item: Document }) => (
@@ -74,6 +73,10 @@ export function DocumentsList({
     </View>
   );
 
+  if (isLoading || isRefetching) {
+    return <Loader />;
+  }
+
   if (error) {
     return renderErrorState();
   }
@@ -81,18 +84,15 @@ export function DocumentsList({
   return (
     <View style={styles.container}>
       <FlatList
-        data={documents || []}
+        data={documents}
         renderItem={renderDocument}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.ID}
         numColumns={viewMode === "grid" ? 2 : 1}
-        key={viewMode} // Force re-render when view mode changes
-        contentContainerStyle={[
-          styles.listContainer,
-          (!documents || documents.length === 0) && styles.emptyListContainer,
-        ]}
+        key={viewMode}
+        contentContainerStyle={styles.listContainer}
         refreshControl={
           <RefreshControl
-            refreshing={isRefreshing}
+            refreshing={isRefetching}
             onRefresh={handleRefresh}
             tintColor={COLORS.primary}
             colors={[COLORS.primary]}
@@ -104,19 +104,19 @@ export function DocumentsList({
       />
     </View>
   );
-}
+};
+
+export default DocumentsList;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+    paddingHorizontal: SPACING.md,
   },
   listContainer: {
+    flexGrow: 1,
     paddingVertical: SPACING.sm,
-  },
-  emptyListContainer: {
-    flex: 1,
-    justifyContent: "center",
   },
   gridRow: {
     justifyContent: "space-around",

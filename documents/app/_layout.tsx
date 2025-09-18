@@ -25,7 +25,7 @@ export default function RootLayout() {
           <Stack.Screen name="index" options={{ headerTitle: "Documents" }} />
           <Stack.Screen
             options={{ headerTitle: "Documents" }}
-            name="documents/documentsScreen"
+            name="documents/documentsListScreen"
           />
         </Stack>
       </QueryClientProvider>

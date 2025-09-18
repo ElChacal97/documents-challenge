@@ -1,3 +1,5 @@
+import { COLORS } from "@/constants/theme";
+import { Document } from "@/types/document";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -8,14 +10,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "../constants";
 import {
-  formatFileSize,
   formatRelativeTime,
   getFileTypeIcon,
   truncateText,
-} from "../logic/utils";
-import type { Document } from "../types";
+} from "../../logic/utils";
 
 interface DocumentItemProps {
   document: Document;
@@ -24,12 +23,12 @@ interface DocumentItemProps {
   variant?: "list" | "grid";
 }
 
-export function DocumentItem({
+const DocumentItem = ({
   document,
   onPress,
   onShare,
   variant = "list",
-}: DocumentItemProps) {
+}: DocumentItemProps) => {
   const handleShare = async () => {
     try {
       if (onShare) {
@@ -38,7 +37,7 @@ export function DocumentItem({
         await Share.share({
           message: `Check out this document: ${document.title}`,
           title: document.title,
-          url: document.url,
+          url: document.attachments[0],
         });
       }
     } catch (error) {
@@ -57,14 +56,14 @@ export function DocumentItem({
         <View style={styles.gridContent}>
           <View style={styles.gridIconContainer}>
             <Text style={styles.gridIcon}>
-              {getFileTypeIcon(document.type)}
+              {getFileTypeIcon(document.attachments[0])}
             </Text>
           </View>
           <Text style={styles.gridTitle} numberOfLines={2}>
             {truncateText(document.title, 20)}
           </Text>
           <Text style={styles.gridAuthor} numberOfLines={1}>
-            {document.author.name}
+            {document.contributors[0].name}
           </Text>
           <Text style={styles.gridTime}>
             {formatRelativeTime(document.createdAt)}
@@ -93,17 +92,20 @@ export function DocumentItem({
     >
       <View style={styles.listContent}>
         <View style={styles.listIconContainer}>
-          <Text style={styles.listIcon}>{getFileTypeIcon(document.type)}</Text>
+          <Text style={styles.listIcon}>
+            {/* {getFileTypeIcon(document.attachments[0])} */}
+          </Text>
         </View>
         <View style={styles.listTextContainer}>
           <Text style={styles.listTitle} numberOfLines={1}>
             {document.title}
           </Text>
           <Text style={styles.listSubtitle} numberOfLines={1}>
-            {document.author.name} • {formatFileSize(document.size)}
+            {/* {document.contributors[0].name} •{" "} */}
+            {/* {formatFileSize(document.attachments[0].length)} */}
           </Text>
           <Text style={styles.listTime}>
-            {formatRelativeTime(document.createdAt)}
+            {/* {formatRelativeTime(document.createdAt)} */}
           </Text>
         </View>
         <TouchableOpacity
@@ -120,14 +122,13 @@ export function DocumentItem({
       </View>
     </TouchableOpacity>
   );
-}
+};
+
+export default DocumentItem;
 
 const styles = StyleSheet.create({
   listItem: {
     backgroundColor: COLORS.surface,
-    marginHorizontal: SPACING.md,
-    marginVertical: SPACING.xs,
-    borderRadius: BORDER_RADIUS.md,
     shadowColor: COLORS.shadow,
     shadowOffset: {
       width: 0,
@@ -140,16 +141,13 @@ const styles = StyleSheet.create({
   listContent: {
     flexDirection: "row",
     alignItems: "center",
-    padding: SPACING.md,
   },
   listIconContainer: {
     width: 40,
     height: 40,
-    borderRadius: BORDER_RADIUS.sm,
     backgroundColor: COLORS.background,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: SPACING.md,
   },
   listIcon: {
     fontSize: 20,
@@ -158,24 +156,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listTitle: {
-    fontSize: FONT_SIZES.md,
     fontWeight: "600",
     color: COLORS.text,
     marginBottom: 2,
   },
   listSubtitle: {
-    fontSize: FONT_SIZES.sm,
     color: COLORS.textSecondary,
     marginBottom: 2,
   },
   listTime: {
-    fontSize: FONT_SIZES.xs,
     color: COLORS.textSecondary,
   },
   gridItem: {
     backgroundColor: COLORS.surface,
-    borderRadius: BORDER_RADIUS.md,
-    margin: SPACING.xs,
     shadowColor: COLORS.shadow,
     shadowOffset: {
       width: 0,
@@ -187,43 +180,34 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   gridContent: {
-    padding: SPACING.md,
     alignItems: "center",
   },
   gridIconContainer: {
     width: 60,
     height: 60,
-    borderRadius: BORDER_RADIUS.lg,
     backgroundColor: COLORS.background,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: SPACING.sm,
   },
   gridIcon: {
     fontSize: 28,
   },
   gridTitle: {
-    fontSize: FONT_SIZES.sm,
     fontWeight: "600",
     color: COLORS.text,
     textAlign: "center",
     marginBottom: 4,
   },
   gridAuthor: {
-    fontSize: FONT_SIZES.xs,
     color: COLORS.textSecondary,
     textAlign: "center",
     marginBottom: 4,
   },
   gridTime: {
-    fontSize: FONT_SIZES.xs,
     color: COLORS.textSecondary,
     textAlign: "center",
   },
   shareButton: {
     position: "absolute",
-    top: SPACING.sm,
-    right: SPACING.sm,
-    padding: SPACING.xs,
   },
 });

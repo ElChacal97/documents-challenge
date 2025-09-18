@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react-native";
 import React from "react";
-import { DocumentItem } from "../components/DocumentItem";
+import { DocumentItem } from "../components/documents/DocumentItem";
 import type { Document } from "../types";
 
 const mockDocument: Document = {
