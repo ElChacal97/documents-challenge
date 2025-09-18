@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -22,9 +23,15 @@ export default function RootLayout() {
             headerShown: true,
           }}
         >
-          <Stack.Screen name="index" options={{ headerTitle: "Documents" }} />
           <Stack.Screen
-            options={{ headerTitle: "Documents" }}
+            name="index"
+            options={{
+              headerShown: true,
+              header: () => <Header />,
+            }}
+          />
+          <Stack.Screen
+            options={{ headerTitle: "Documents", headerTitleAlign: "left" }}
             name="documents/documentsListScreen"
           />
         </Stack>
