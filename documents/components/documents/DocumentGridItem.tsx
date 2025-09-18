@@ -10,7 +10,6 @@ interface DocumentGridItemProps {
 }
 
 const DocumentGridItem = ({ document, onPress }: DocumentGridItemProps) => {
-  console.log(document.Title);
   return (
     <TouchableOpacity
       style={styles.container}
@@ -47,15 +46,14 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   content: {
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   title: {
     fontSize: FONT_SIZES.md,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: COLORS.text,
-    textAlign: "center",
+    textAlign: "left",
     marginBottom: SPACING.xs,
-    lineHeight: 20,
   },
   version: {
     fontSize: FONT_SIZES.sm,

@@ -28,7 +28,7 @@ const DocumentListItem = ({ document, onPress }: DocumentListItemProps) => {
         <View style={styles.section}>
           <View style={styles.sectionWrapper}>
             <View style={styles.sectionHeader}>
-              <Ionicons name="people-outline" size={14} color={COLORS.icon} />
+              <Ionicons name="people-outline" size={18} color={COLORS.icon} />
               <Text style={styles.sectionTitle}>Contributors</Text>
             </View>
             <View style={styles.sectionContentWrapper}>
@@ -45,7 +45,7 @@ const DocumentListItem = ({ document, onPress }: DocumentListItemProps) => {
           </View>
           <View style={styles.sectionWrapper}>
             <View style={styles.sectionHeader}>
-              <Ionicons name="link" size={14} color={COLORS.textSecondary} />
+              <Ionicons name="link" size={18} color={COLORS.textSecondary} />
               <Text style={styles.sectionTitle}>Attachments</Text>
             </View>
             <View style={styles.sectionContentWrapper}>

@@ -35,7 +35,7 @@ const DocumentsList = ({ viewMode = "list" }: DocumentsListProps) => {
       await Share.share({
         message: `Check out this document: ${document.Title}`,
         title: document.Title,
-        // url: document.attachments[0],
+        url: document.Attachments[0],
       });
     } catch (error) {
       console.error("Error sharing document:", error);
