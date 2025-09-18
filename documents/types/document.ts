@@ -1,14 +1,14 @@
 export interface Document {
   ID: string;
-  attachments: string[];
-  contributors: {
-    id: string;
-    name: string;
+  Attachments: string[];
+  Contributors: {
+    ID: string;
+    Name: string;
   }[];
-  title: string;
-  createdAt: string;
-  version: string;
-  updatedAt: string;
+  Title: string;
+  CreatedAt: string;
+  Version: string;
+  UpdatedAt: string;
 }
 
 export interface CreateDocumentRequest {

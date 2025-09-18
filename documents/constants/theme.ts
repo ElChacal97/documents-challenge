@@ -11,6 +11,7 @@ export const COLORS = {
   textSecondary: "#8E8E93",
   border: "#C6C6C8",
   shadow: "rgba(0, 0, 0, 0.1)",
+  icon: "#000000",
 } as const;
 
 export const SPACING = {

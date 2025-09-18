@@ -1,32 +1,38 @@
+import AddDocumentButton from "@/components/documents/AddDocumentButton";
+import DocumentsHeader from "@/components/documents/DocumentsHeader";
 import DocumentsList from "@/components/documents/DocumentsList";
-import type { NotificationData } from "@/types/document";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 const DocumentsScreen = () => {
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
-  const [showCreateForm, setShowCreateForm] = useState(false);
-  const [currentNotification, setCurrentNotification] =
-    useState<NotificationData | null>(null);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleSortPress = () => {
+    console.log("Sort pressed");
+  };
+
+  const handleNotificationPress = () => {
+    console.log("Notification pressed");
+  };
+
+  const handleAddPress = () => {
+    console.log("Add document pressed");
+  };
 
   return (
     <View style={styles.container}>
-      {/* <DocumentsHeader
+      <DocumentsHeader
         title="Documents"
         viewMode={viewMode}
         onViewModeChange={setViewMode}
-        onAddPress={handleAddPress}
-        notificationCount={notifications.length}
-      /> */}
+        onSortPress={handleSortPress}
+        onNotificationPress={handleNotificationPress}
+        notificationCount={1}
+      />
 
       <DocumentsList viewMode={viewMode} />
 
-      {/* <NotificationBanner
-        notification={currentNotification}
-        onDismiss={handleNotificationDismiss}
-        onPress={handleNotificationPress}
-      /> */}
+      <AddDocumentButton onPress={handleAddPress} />
     </View>
   );
 };
@@ -36,6 +42,6 @@ export default DocumentsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#c9c9c93b",
+    backgroundColor: "#F2F2F7",
   },
 });

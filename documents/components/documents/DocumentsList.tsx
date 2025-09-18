@@ -4,7 +4,9 @@ import { Document } from "@/types/document";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
+  Alert,
   RefreshControl,
+  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,7 +14,8 @@ import {
 } from "react-native";
 import FlatList from "../FlatList";
 import Loader from "../Loader";
-import DocumentItem from "./DocumentItem";
+import DocumentGridItem from "./DocumentGridItem";
+import DocumentListItem from "./DocumentListItem";
 
 interface DocumentsListProps {
   viewMode: "list" | "grid";
@@ -23,28 +26,29 @@ const DocumentsList = ({ viewMode = "list" }: DocumentsListProps) => {
     listDocuments: { data: documents, isLoading, error, refetch, isRefetching },
   } = useDocument();
 
-  console.log("documents", documents);
-
   const handleRefresh = () => {
     refetch();
   };
 
-  const onDocumentPress = (document: Document) => {
-    console.log(document);
+  const onDocumentPress = async (document: Document) => {
+    try {
+      await Share.share({
+        message: `Check out this document: ${document.Title}`,
+        title: document.Title,
+        // url: document.attachments[0],
+      });
+    } catch (error) {
+      console.error("Error sharing document:", error);
+      Alert.alert("Error", "Failed to share document");
+    }
   };
 
-  const onDocumentShare = (document: Document) => {
-    console.log(document);
+  const renderDocument = ({ item }: { item: Document }) => {
+    if (viewMode === "grid") {
+      return <DocumentGridItem document={item} onPress={onDocumentPress} />;
+    }
+    return <DocumentListItem document={item} onPress={onDocumentPress} />;
   };
-
-  const renderDocument = ({ item }: { item: Document }) => (
-    <DocumentItem
-      document={item}
-      onPress={onDocumentPress}
-      onShare={onDocumentShare}
-      variant={viewMode}
-    />
-  );
 
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
@@ -82,44 +86,38 @@ const DocumentsList = ({ viewMode = "list" }: DocumentsListProps) => {
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={documents}
-        renderItem={renderDocument}
-        keyExtractor={(item) => item.ID}
-        numColumns={viewMode === "grid" ? 2 : 1}
-        key={viewMode}
-        contentContainerStyle={styles.listContainer}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefetching}
-            onRefresh={handleRefresh}
-            tintColor={COLORS.primary}
-            colors={[COLORS.primary]}
-          />
-        }
-        ListEmptyComponent={!isLoading ? renderEmptyState : null}
-        showsVerticalScrollIndicator={false}
-        columnWrapperStyle={viewMode === "grid" ? styles.gridRow : undefined}
-      />
-    </View>
+    <FlatList
+      data={documents}
+      renderItem={renderDocument}
+      keyExtractor={(item) => item.ID}
+      numColumns={viewMode === "grid" ? 2 : 1}
+      key={viewMode}
+      contentContainerStyle={styles.listContainer}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefetching}
+          onRefresh={handleRefresh}
+          tintColor={COLORS.primary}
+          colors={[COLORS.primary]}
+        />
+      }
+      ListEmptyComponent={!isLoading ? renderEmptyState : null}
+      showsVerticalScrollIndicator={false}
+      columnWrapperStyle={viewMode === "grid" ? styles.gridRow : undefined}
+    />
   );
 };
 
 export default DocumentsList;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-    paddingHorizontal: SPACING.md,
-  },
   listContainer: {
     flexGrow: 1,
+    paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
   },
   gridRow: {
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
   emptyContainer: {
     flex: 1,

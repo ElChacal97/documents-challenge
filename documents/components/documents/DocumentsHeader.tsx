@@ -1,126 +1,166 @@
+import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { COLORS, FONT_SIZES, SPACING } from "../constants";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface DocumentsHeaderProps {
   title: string;
   viewMode: "list" | "grid";
   onViewModeChange: (mode: "list" | "grid") => void;
-  onAddPress: () => void;
+  onSortPress: () => void;
+  onNotificationPress: () => void;
   notificationCount?: number;
 }
 
-export function DocumentsHeader({
+const DocumentsHeader = ({
   title,
   viewMode,
   onViewModeChange,
-  onAddPress,
+  onSortPress,
+  onNotificationPress,
   notificationCount = 0,
-}: DocumentsHeaderProps) {
+}: DocumentsHeaderProps) => {
+  const { top } = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor={COLORS.surface} />
-      <View style={styles.content}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
+    <View style={[styles.container, { paddingTop: top }]}>
+      <View style={styles.header}>
+        <Text style={styles.title}>{title}</Text>
+        <TouchableOpacity
+          style={styles.notificationButton}
+          onPress={onNotificationPress}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons
+            name="notifications-outline"
+            size={24}
+            color={COLORS.text}
+          />
           {notificationCount > 0 && (
-            <View style={styles.notificationBadge}>
-              <Text style={styles.notificationText}>{notificationCount}</Text>
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>{notificationCount}</Text>
             </View>
           )}
-        </View>
-        <View style={styles.actions}>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.controls}>
+        <TouchableOpacity style={styles.sortButton} onPress={onSortPress}>
+          <Text style={styles.sortText}>Sort by</Text>
+          <Ionicons
+            name="chevron-down-outline"
+            size={16}
+            color={COLORS.textSecondary}
+          />
+        </TouchableOpacity>
+
+        <View style={styles.viewToggle}>
           <TouchableOpacity
-            style={styles.viewToggle}
-            onPress={() =>
-              onViewModeChange(viewMode === "list" ? "grid" : "list")
-            }
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            style={[
+              styles.toggleButton,
+              viewMode === "list" && styles.toggleButtonActive,
+            ]}
+            onPress={() => onViewModeChange("list")}
           >
             <Ionicons
-              name={viewMode === "list" ? "grid-outline" : "list-outline"}
-              size={24}
-              color={COLORS.primary}
+              name="list-outline"
+              size={20}
+              color={
+                viewMode === "list" ? COLORS.primary : COLORS.textSecondary
+              }
             />
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.addButton}
-            onPress={onAddPress}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            style={[
+              styles.toggleButton,
+              viewMode === "grid" && styles.toggleButtonActive,
+            ]}
+            onPress={() => onViewModeChange("grid")}
           >
-            <Ionicons name="add" size={24} color={COLORS.surface} />
+            <Ionicons
+              name="grid-outline"
+              size={20}
+              color={
+                viewMode === "grid" ? COLORS.primary : COLORS.textSecondary
+              }
+            />
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
-}
+};
+
+export default DocumentsHeader;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.surface,
-    paddingTop: 44, // Status bar height
-    shadowColor: COLORS.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 4,
+    paddingHorizontal: SPACING.md,
+    paddingTop: SPACING.lg,
+    paddingBottom: SPACING.sm,
   },
-  content: {
+  header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-  },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    marginBottom: SPACING.md,
   },
   title: {
     fontSize: FONT_SIZES.xxl,
     fontWeight: "700",
     color: COLORS.text,
   },
-  notificationBadge: {
-    backgroundColor: COLORS.error,
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
+  notificationButton: {
+    position: "relative",
+    padding: SPACING.xs,
+  },
+  badge: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: COLORS.secondary,
+    borderRadius: 8,
+    minWidth: 16,
+    height: 16,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: SPACING.sm,
-    paddingHorizontal: 6,
   },
-  notificationText: {
+  badgeText: {
     color: COLORS.surface,
-    fontSize: FONT_SIZES.xs,
+    fontSize: 10,
     fontWeight: "600",
   },
-  actions: {
+  controls: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#F2F2F7",
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.sm,
+    borderRadius: 8,
+  },
+  sortButton: {
     flexDirection: "row",
     alignItems: "center",
   },
-  viewToggle: {
-    padding: SPACING.sm,
-    marginRight: SPACING.sm,
+  sortText: {
+    fontSize: FONT_SIZES.md,
+    color: COLORS.text,
+    marginRight: 4,
   },
-  addButton: {
+  viewToggle: {
+    flexDirection: "row",
+    backgroundColor: COLORS.surface,
+    borderRadius: 6,
+    padding: 2,
+  },
+  toggleButton: {
+    padding: SPACING.sm,
+    borderRadius: 4,
+  },
+  toggleButtonActive: {
     backgroundColor: COLORS.primary,
-    borderRadius: 20,
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });

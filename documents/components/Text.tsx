@@ -1,19 +1,10 @@
-import {
-  Text as RNText,
-  TextProps as RNTextProps,
-  TextStyle,
-} from "react-native";
+import { Text as RNText, TextProps as RNTextProps } from "react-native";
 
-interface TextProps extends RNTextProps {
-  fontFamily?: TextStyle["fontFamily"];
-}
+interface TextProps extends RNTextProps {}
 
-const Text = ({ children, style, fontFamily, ...props }: TextProps) => {
+const Text = ({ children, style, ...props }: TextProps) => {
   return (
-    <RNText
-      style={[style, { fontFamily: fontFamily || "Inter-Regular" }]}
-      {...props}
-    >
+    <RNText style={style} {...props}>
       {children}
     </RNText>
   );

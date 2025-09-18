@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -8,7 +7,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2,
-      staleTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 5 * 60 * 1000,
     },
   },
 });
@@ -26,8 +25,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="index"
             options={{
-              headerShown: true,
-              header: () => <Header />,
+              headerShown: false,
             }}
           />
           <Stack.Screen
