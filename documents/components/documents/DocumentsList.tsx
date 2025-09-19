@@ -3,7 +3,7 @@ import useDocument from "@/logic/hooks/useDocument";
 import { sortDocuments } from "@/logic/utils/sorting";
 import { Document } from "@/types/document";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   Alert,
   RefreshControl,
@@ -37,9 +37,9 @@ const DocumentsList = ({
     return sortDocuments(documents, sortOption);
   }, [documents, sortOption]);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     refetch();
-  };
+  }, [refetch]);
 
   const onDocumentPress = async (document: Document) => {
     try {
