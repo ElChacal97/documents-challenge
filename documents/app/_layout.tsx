@@ -2,7 +2,10 @@ import EndFlowModal from "@/components/modals/EndFlowModal";
 import NotificationBanner from "@/components/NotificationBanner";
 import { EndFlowModalProvider } from "@/contexts/EndFlowModalContext";
 import { NotificationQueueProvider } from "@/contexts/NotificationQueueContext";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
+import { QueryClient } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -14,15 +17,23 @@ const queryClient = new QueryClient({
     queries: {
       retry: 2,
       staleTime: 5 * 60 * 1000,
+      gcTime: 1000 * 60 * 60 * 24,
     },
   },
+});
+
+const asyncStoragePersister = createAsyncStoragePersister({
+  storage: AsyncStorage,
 });
 
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <QueryClientProvider client={queryClient}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister: asyncStoragePersister }}
+        >
           <NotificationQueueProvider>
             <EndFlowModalProvider>
               <StatusBar style="dark" />
@@ -49,7 +60,7 @@ export default function RootLayout() {
               <NotificationBanner />
             </EndFlowModalProvider>
           </NotificationQueueProvider>
-        </QueryClientProvider>
+        </PersistQueryClientProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
