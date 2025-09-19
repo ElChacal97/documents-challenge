@@ -1,36 +1,34 @@
 import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
-import type { NotificationData } from "@/types/document";
+import { useNotificationQueue } from "@/contexts/NotificationQueueContext";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Animated,
-  Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { formatRelativeTime } from "../logic/utils/string";
 
-interface NotificationBannerProps {
-  notification: NotificationData | null;
-  onDismiss: () => void;
-  onPress?: (notification: NotificationData) => void;
-}
-
-const { width } = Dimensions.get("window");
-
-export function NotificationBanner({
-  notification,
-  onDismiss,
-  onPress,
-}: NotificationBannerProps) {
+const NotificationBanner: React.FC = () => {
   const [slideAnim] = useState(new Animated.Value(-100));
   const [opacityAnim] = useState(new Animated.Value(0));
+  const { state, showNext, hideCurrent } = useNotificationQueue();
+  const { currentNotification, isShowing } = state;
+  const { top } = useSafeAreaInsets();
+
+  const handleDismiss = useCallback(() => {
+    hideCurrent();
+
+    setTimeout(() => {
+      showNext();
+    }, 2000);
+  }, [hideCurrent, showNext]);
 
   useEffect(() => {
-    if (notification) {
-      // Show animation
+    if (isShowing && currentNotification) {
       Animated.parallel([
         Animated.timing(slideAnim, {
           toValue: 0,
@@ -44,14 +42,12 @@ export function NotificationBanner({
         }),
       ]).start();
 
-      // Auto dismiss after 5 seconds
-      const timer = setTimeout(() => {
+      const dismissTimer = setTimeout(() => {
         handleDismiss();
-      }, 5000);
+      }, 3000);
 
-      return () => clearTimeout(timer);
-    } else {
-      // Hide animation
+      return () => clearTimeout(dismissTimer);
+    } else if (!isShowing) {
       Animated.parallel([
         Animated.timing(slideAnim, {
           toValue: -100,
@@ -65,58 +61,13 @@ export function NotificationBanner({
         }),
       ]).start();
     }
-  }, [notification]);
-
-  const handleDismiss = () => {
-    Animated.parallel([
-      Animated.timing(slideAnim, {
-        toValue: -100,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.timing(opacityAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      onDismiss();
-    });
-  };
+  }, [isShowing, currentNotification, slideAnim, opacityAnim, handleDismiss]);
 
   const handlePress = () => {
-    if (notification && onPress) {
-      onPress(notification);
-    }
+    handleDismiss();
   };
 
-  if (!notification) return null;
-
-  const getNotificationIcon = () => {
-    switch (notification.type) {
-      case "document_created":
-        return "document-text";
-      case "document_updated":
-        return "create";
-      case "document_deleted":
-        return "trash";
-      default:
-        return "notifications";
-    }
-  };
-
-  const getNotificationColor = () => {
-    switch (notification.type) {
-      case "document_created":
-        return COLORS.success;
-      case "document_updated":
-        return COLORS.warning;
-      case "document_deleted":
-        return COLORS.error;
-      default:
-        return COLORS.primary;
-    }
-  };
+  if (!isShowing || !currentNotification) return null;
 
   return (
     <Animated.View
@@ -125,33 +76,28 @@ export function NotificationBanner({
         {
           transform: [{ translateY: slideAnim }],
           opacity: opacityAnim,
+          paddingTop: top,
         },
       ]}
     >
       <TouchableOpacity
-        style={[styles.banner, { borderLeftColor: getNotificationColor() }]}
+        style={[styles.banner, { borderLeftColor: COLORS.primary }]}
         onPress={handlePress}
         activeOpacity={0.8}
       >
         <View style={styles.content}>
           <View style={styles.iconContainer}>
-            <Ionicons
-              name={getNotificationIcon()}
-              size={20}
-              color={getNotificationColor()}
-            />
+            <Ionicons name="notifications" size={20} color={COLORS.primary} />
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.title} numberOfLines={1}>
-              {notification.type === "document_created" && "New Document"}
-              {notification.type === "document_updated" && "Document Updated"}
-              {notification.type === "document_deleted" && "Document Deleted"}
+              New Document Created!
             </Text>
             <Text style={styles.subtitle} numberOfLines={1}>
-              {notification.document.Title}
+              {currentNotification.DocumentTitle}
             </Text>
             <Text style={styles.time}>
-              {formatRelativeTime(notification.timestamp)}
+              {formatRelativeTime(currentNotification.Timestamp)}
             </Text>
           </View>
           <TouchableOpacity
@@ -165,7 +111,9 @@ export function NotificationBanner({
       </TouchableOpacity>
     </Animated.View>
   );
-}
+};
+
+export default NotificationBanner;
 
 const styles = StyleSheet.create({
   container: {
@@ -175,7 +123,7 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 1000,
     paddingHorizontal: SPACING.md,
-    paddingTop: 44, // Status bar height
+    paddingTop: 44,
   },
   banner: {
     backgroundColor: COLORS.surface,
@@ -209,7 +157,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZES.md,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: COLORS.text,
     marginBottom: 2,
   },

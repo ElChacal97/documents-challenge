@@ -18,6 +18,11 @@ export interface CreateDocumentRequest {
 }
 
 export interface NotificationData {
+  data: NotificationItem[];
+  count: number;
+}
+
+export interface NotificationItem {
   Timestamp: string;
   UserID: string;
   UserName: string;

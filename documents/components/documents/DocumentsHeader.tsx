@@ -1,4 +1,5 @@
 import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
+import { useNotificationQueue } from "@/contexts/NotificationQueueContext";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -7,15 +8,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 interface DocumentsHeaderProps {
   title: string;
   onNotificationPress: () => void;
-  notificationCount?: number;
 }
 
 const DocumentsHeader = ({
   title,
   onNotificationPress,
-  notificationCount = 0,
 }: DocumentsHeaderProps) => {
   const { top } = useSafeAreaInsets();
+  const {
+    state: { totalCount },
+  } = useNotificationQueue();
   return (
     <View style={[styles.container, { paddingTop: top }]}>
       <View style={styles.header}>
@@ -30,9 +32,9 @@ const DocumentsHeader = ({
             size={20}
             color={COLORS.text}
           />
-          {notificationCount > 0 && (
+          {totalCount > 0 && (
             <View style={styles.badge}>
-              <Text style={styles.badgeText}>{notificationCount}</Text>
+              <Text style={styles.badgeText}>{totalCount}</Text>
             </View>
           )}
         </TouchableOpacity>

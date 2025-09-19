@@ -1,5 +1,7 @@
 import EndFlowModal from "@/components/modals/EndFlowModal";
+import NotificationBanner from "@/components/NotificationBanner";
 import { EndFlowModalProvider } from "@/contexts/EndFlowModalContext";
+import { NotificationQueueProvider } from "@/contexts/NotificationQueueContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -21,26 +23,32 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <QueryClientProvider client={queryClient}>
-          <EndFlowModalProvider>
-            <StatusBar style="dark" />
-            <Stack
-              screenOptions={{
-                headerShown: true,
-              }}
-            >
-              <Stack.Screen
-                name="index"
-                options={{
-                  headerShown: false,
+          <NotificationQueueProvider>
+            <EndFlowModalProvider>
+              <StatusBar style="dark" />
+              <Stack
+                screenOptions={{
+                  headerShown: true,
                 }}
-              />
-              <Stack.Screen
-                options={{ headerTitle: "Documents", headerTitleAlign: "left" }}
-                name="documents/documentsListScreen"
-              />
-            </Stack>
-            <EndFlowModal />
-          </EndFlowModalProvider>
+              >
+                <Stack.Screen
+                  name="index"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  options={{
+                    headerTitle: "Documents",
+                    headerTitleAlign: "left",
+                  }}
+                  name="documents/documentsListScreen"
+                />
+              </Stack>
+              <EndFlowModal />
+              <NotificationBanner />
+            </EndFlowModalProvider>
+          </NotificationQueueProvider>
         </QueryClientProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>

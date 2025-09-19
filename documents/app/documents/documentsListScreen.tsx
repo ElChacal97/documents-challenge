@@ -6,6 +6,7 @@ import AddDocumentModal from "@/components/documents/modals/AddDocumentModal";
 import SortModal, {
   SortOption,
 } from "@/components/documents/modals/SortDocumentModal";
+import { COLORS } from "@/constants/theme";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -45,7 +46,6 @@ const DocumentsScreen = () => {
       <DocumentsHeader
         title="Documents"
         onNotificationPress={handleNotificationPress}
-        notificationCount={1}
       />
 
       <DocumentsListHeader
@@ -79,6 +79,6 @@ export default DocumentsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F2F2F7",
+    backgroundColor: COLORS.secondaryBackground,
   },
 });
