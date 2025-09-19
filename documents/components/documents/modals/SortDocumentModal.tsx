@@ -66,7 +66,7 @@ const SortModal = ({
       ref={ref}
       visible={isVisible}
       onCloseModal={onClose}
-      modalHeight={600}
+      adjustToContentHeight
     >
       <View style={styles.container}>
         <Text style={styles.title}>Sort Documents</Text>

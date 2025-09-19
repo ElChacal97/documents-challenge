@@ -2,6 +2,7 @@ import AddDocumentButton from "@/components/documents/AddDocumentButton";
 import DocumentsHeader from "@/components/documents/DocumentsHeader";
 import DocumentsList from "@/components/documents/DocumentsList";
 import DocumentsListHeader from "@/components/documents/DocumentsListHeader";
+import AddDocumentModal from "@/components/documents/modals/AddDocumentModal";
 import SortModal, {
   SortOption,
 } from "@/components/documents/modals/SortDocumentModal";
@@ -12,6 +13,8 @@ const DocumentsScreen = () => {
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [sortOption, setSortOption] = useState<SortOption>("date-desc");
   const [isSortModalVisible, setIsSortModalVisible] = useState(false);
+  const [isAddDocumentModalVisible, setIsAddDocumentModalVisible] =
+    useState(false);
 
   const handleSortPress = () => {
     setIsSortModalVisible(true);
@@ -30,7 +33,11 @@ const DocumentsScreen = () => {
   };
 
   const handleAddPress = () => {
-    console.log("Add document pressed");
+    setIsAddDocumentModalVisible(true);
+  };
+
+  const handleCloseAddDocumentModal = () => {
+    setIsAddDocumentModalVisible(false);
   };
 
   return (
@@ -57,6 +64,11 @@ const DocumentsScreen = () => {
         onClose={handleCloseSortModal}
         onSortSelect={handleSortSelect}
         currentSort={sortOption}
+      />
+
+      <AddDocumentModal
+        isVisible={isAddDocumentModalVisible}
+        onClose={handleCloseAddDocumentModal}
       />
     </View>
   );
