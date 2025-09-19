@@ -70,5 +70,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Added modalize library to make drawer modals.
 - For notifications I would use Server sent events instead of Websocket for simplicity and performance, no need to have a two way communication.
 - Installed expo-document-picker to handle document picking.
-- Installed MMKV just for preference and performance to handle local storage.
 - Installed react query for server state management and global state.
+- Implemented tanstack/react-query-persist-client and tanstack/query-async-storage-persister to manage query local storage, it was mainly a personal decision since I just found it and seems a very simple, easy solution.
+- I decided to show the dates when each document was last updated in the DocumentListItem.
+- I decided to clear all the notifications when pressing the notification bell, ideally it would open a notifications list marking which ones are seen or not and update the list as the user scrolls and sees them, I think that would be stepping too far from the required and optional requirements.
+- I'm aware some more code could be abstracted or separated to improve maintainability (Websocket handling), I chose not to do it for simplicity reasons and avoid over-engineering since it's just being used once.

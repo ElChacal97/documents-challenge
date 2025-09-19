@@ -2,8 +2,9 @@ import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import { Document } from "@/types/document";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { formatRelativeTime } from "../../logic/utils/string";
+import Card from "../Card";
 import Text from "../Text";
 
 interface DocumentListItemProps {
@@ -13,11 +14,7 @@ interface DocumentListItemProps {
 
 const DocumentListItem = ({ document, onPress }: DocumentListItemProps) => {
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => onPress(document)}
-      activeOpacity={0.7}
-    >
+    <Card onPress={() => onPress(document)}>
       <View style={styles.content}>
         <View style={styles.header}>
           <View style={styles.titleContainer}>
@@ -68,28 +65,13 @@ const DocumentListItem = ({ document, onPress }: DocumentListItemProps) => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </Card>
   );
 };
 
 export default DocumentListItem;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.surface,
-    marginBottom: SPACING.md,
-    borderRadius: 8,
-    padding: SPACING.md,
-    shadowColor: COLORS.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
   content: {
     flex: 1,
   },
@@ -115,7 +97,7 @@ const styles = StyleSheet.create({
   version: {
     fontSize: FONT_SIZES.sm,
     color: COLORS.textSecondary,
-    marginLeft: SPACING.sm,
+    marginHorizontal: SPACING.sm,
   },
   updatedAt: {
     fontSize: FONT_SIZES.xs,

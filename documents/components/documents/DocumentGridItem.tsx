@@ -1,7 +1,8 @@
 import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import { Document } from "@/types/document";
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Card from "../Card";
 import Text from "../Text";
 
 interface DocumentGridItemProps {
@@ -11,18 +12,14 @@ interface DocumentGridItemProps {
 
 const DocumentGridItem = ({ document, onPress }: DocumentGridItemProps) => {
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => onPress(document)}
-      activeOpacity={0.7}
-    >
+    <Card onPress={() => onPress(document)} style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title} numberOfLines={2}>
           {document.Title}
         </Text>
         <Text style={styles.version}>Version {document.Version}</Text>
       </View>
-    </TouchableOpacity>
+    </Card>
   );
 };
 
@@ -30,20 +27,7 @@ export default DocumentGridItem;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.surface,
-    borderRadius: 8,
-    padding: SPACING.md,
-    marginBottom: SPACING.sm,
     marginHorizontal: SPACING.xs,
-    flex: 1,
-    shadowColor: COLORS.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
   },
   content: {
     alignItems: "flex-start",
