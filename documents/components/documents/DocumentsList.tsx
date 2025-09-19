@@ -1,8 +1,9 @@
 import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import useDocument from "@/logic/hooks/useDocument";
+import { sortDocuments } from "@/logic/utils/sorting";
 import { Document } from "@/types/document";
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Alert,
   RefreshControl,
@@ -16,15 +17,25 @@ import FlatList from "../FlatList";
 import Loader from "../Loader";
 import DocumentGridItem from "./DocumentGridItem";
 import DocumentListItem from "./DocumentListItem";
+import { SortOption } from "./modals/SortDocumentModal";
 
 interface DocumentsListProps {
   viewMode: "list" | "grid";
+  sortOption: SortOption;
 }
 
-const DocumentsList = ({ viewMode = "list" }: DocumentsListProps) => {
+const DocumentsList = ({
+  viewMode = "list",
+  sortOption,
+}: DocumentsListProps) => {
   const {
     listDocuments: { data: documents, isLoading, error, refetch, isRefetching },
   } = useDocument();
+
+  const sortedDocuments = useMemo(() => {
+    if (!documents) return [];
+    return sortDocuments(documents, sortOption);
+  }, [documents, sortOption]);
 
   const handleRefresh = () => {
     refetch();
@@ -87,11 +98,11 @@ const DocumentsList = ({ viewMode = "list" }: DocumentsListProps) => {
 
   return (
     <FlatList
-      data={documents}
+      data={sortedDocuments}
       renderItem={renderDocument}
       keyExtractor={(item) => item.ID}
       numColumns={viewMode === "grid" ? 2 : 1}
-      key={viewMode}
+      key={`${viewMode}-${sortOption}`}
       contentContainerStyle={styles.listContainer}
       refreshControl={
         <RefreshControl

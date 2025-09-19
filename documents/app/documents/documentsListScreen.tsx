@@ -2,14 +2,27 @@ import AddDocumentButton from "@/components/documents/AddDocumentButton";
 import DocumentsHeader from "@/components/documents/DocumentsHeader";
 import DocumentsList from "@/components/documents/DocumentsList";
 import DocumentsListHeader from "@/components/documents/DocumentsListHeader";
+import SortModal, {
+  SortOption,
+} from "@/components/documents/modals/SortDocumentModal";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 const DocumentsScreen = () => {
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+  const [sortOption, setSortOption] = useState<SortOption>("date-desc");
+  const [isSortModalVisible, setIsSortModalVisible] = useState(false);
 
   const handleSortPress = () => {
-    console.log("Sort pressed");
+    setIsSortModalVisible(true);
+  };
+
+  const handleSortSelect = (newSortOption: SortOption) => {
+    setSortOption(newSortOption);
+  };
+
+  const handleCloseSortModal = () => {
+    setIsSortModalVisible(false);
   };
 
   const handleNotificationPress = () => {
@@ -32,11 +45,19 @@ const DocumentsScreen = () => {
         viewMode={viewMode}
         onViewModeChange={setViewMode}
         onSortPress={handleSortPress}
+        currentSort={sortOption}
       />
 
-      <DocumentsList viewMode={viewMode} />
+      <DocumentsList viewMode={viewMode} sortOption={sortOption} />
 
       <AddDocumentButton onPress={handleAddPress} />
+
+      <SortModal
+        isVisible={isSortModalVisible}
+        onClose={handleCloseSortModal}
+        onSortSelect={handleSortSelect}
+        currentSort={sortOption}
+      />
     </View>
   );
 };

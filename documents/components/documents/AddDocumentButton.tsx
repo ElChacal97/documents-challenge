@@ -1,7 +1,8 @@
 import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import Button from "../Button";
 
 interface AddDocumentButtonProps {
   onPress: () => void;
@@ -10,14 +11,13 @@ interface AddDocumentButtonProps {
 const AddDocumentButton = ({ onPress }: AddDocumentButtonProps) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      <Button
         style={styles.button}
         onPress={onPress}
-        activeOpacity={0.8}
+        leftIcon={<Ionicons name="add" size={24} color={COLORS.surface} />}
       >
-        <Ionicons name="add" size={24} color={COLORS.surface} />
         <Text style={styles.buttonText}>Add document</Text>
-      </TouchableOpacity>
+      </Button>
     </View>
   );
 };
@@ -27,8 +27,10 @@ export default AddDocumentButton;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-    backgroundColor: COLORS.surface,
+    paddingVertical: SPACING.lg,
+    borderColor: COLORS.border,
+    borderWidth: 1,
+    backgroundColor: COLORS.secondaryBackground,
   },
   button: {
     backgroundColor: COLORS.secondary,

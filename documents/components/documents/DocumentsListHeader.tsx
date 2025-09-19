@@ -2,23 +2,40 @@ import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SortOption } from "./modals/SortDocumentModal";
 
 interface DocumentsListHeaderProps {
   onSortPress: () => void;
   onViewModeChange: (mode: "list" | "grid") => void;
   viewMode: "list" | "grid";
+  currentSort?: SortOption;
 }
 
 const DocumentsListHeader = ({
   onSortPress,
   onViewModeChange,
   viewMode,
+  currentSort,
 }: DocumentsListHeaderProps) => {
+  const getSortDisplayText = (sortOption?: SortOption) => {
+    if (!sortOption) return "Sort by";
+
+    const sortLabels: Record<SortOption, string> = {
+      "title-asc": "Title A-Z",
+      "title-desc": "Title Z-A",
+      "date-asc": "Date (Oldest)",
+      "date-desc": "Date (Newest)",
+      "updated-asc": "Updated (Oldest)",
+      "updated-desc": "Updated (Newest)",
+    };
+
+    return sortLabels[sortOption] || "Sort by";
+  };
   return (
     <View style={styles.controls}>
       <TouchableOpacity style={styles.sortButton} onPress={onSortPress}>
         <FontAwesome6 name="sort" size={16} color={COLORS.icon} />
-        <Text style={styles.sortText}>Sort by</Text>
+        <Text style={styles.sortText}>{getSortDisplayText(currentSort)}</Text>
         <Ionicons
           name="chevron-down-outline"
           size={16}

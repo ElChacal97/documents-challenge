@@ -18,6 +18,7 @@ export type ButtonProps = PressableProps &
     isLoading?: boolean;
     textStyle?: StyleProp<TextStyle>;
     style?: StyleProp<ViewStyle>;
+    leftIcon?: React.ReactNode;
   };
 
 const Button: React.FC<ButtonProps> = ({
@@ -27,6 +28,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   textStyle,
   style,
+  leftIcon,
   ...props
 }) => {
   const handlePress = () => {
@@ -50,6 +52,7 @@ const Button: React.FC<ButtonProps> = ({
         <ActivityIndicator color={COLORS.background} />
       ) : (
         <>
+          {leftIcon}
           <Text style={[styles.submitButtonText, textStyle]}>{children}</Text>
         </>
       )}
