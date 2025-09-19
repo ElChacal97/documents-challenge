@@ -16,6 +16,7 @@ const FlatList = <T,>({
 }: FlatListProps<T>) => {
   return (
     <RNFlatList
+      testID="flat-list"
       data={data}
       renderItem={renderItem}
       keyExtractor={keyExtractor}

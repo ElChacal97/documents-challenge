@@ -1,31 +1,17 @@
 module.exports = function (api) {
   api.cache(true);
-  
-  const isTest = process.env.NODE_ENV === 'test';
-  
+
+  const isTest = process.env.NODE_ENV === "test";
+
   return {
     presets: [
       [
-        '@babel/preset-env',
+        "babel-preset-expo",
         {
-          targets: isTest ? { node: 'current' } : undefined,
-        },
-      ],
-      [
-        '@babel/preset-typescript',
-        {
-          allowDeclareFields: true,
-          isTSX: true,
-          allExtensions: true,
-        },
-      ],
-      [
-        '@babel/preset-react',
-        {
-          runtime: 'automatic',
+          jsxImportSource: "react",
         },
       ],
     ],
-    plugins: isTest ? [] : ['react-native-reanimated/plugin'],
+    plugins: isTest ? [] : ["react-native-worklets/plugin"],
   };
 };

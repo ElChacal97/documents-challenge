@@ -185,6 +185,19 @@ jest.mock("react-native-modalize", () => ({
   Modalize: "Modalize",
 }));
 
+// Mock DrawerModal component
+jest.mock("./components/modals/DrawerModal", () => {
+  return ({ children, visible, onCloseModal, ...props }) => {
+    const React = require("react");
+    if (!visible) return null;
+    return React.createElement(
+      "View",
+      { testID: "drawer-modal", ...props },
+      children
+    );
+  };
+});
+
 // Mock React Native Safe Area Context
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: jest.fn(() => ({ top: 0, bottom: 0, left: 0, right: 0 })),
@@ -193,7 +206,7 @@ jest.mock("react-native-safe-area-context", () => ({
 }));
 
 // Mock theme constants
-jest.mock('@/constants/theme', () => ({
+jest.mock("@/constants/theme", () => ({
   COLORS: {
     primary: "#007AFF",
     secondary: "#FF9500",
@@ -234,27 +247,25 @@ jest.mock('@/constants/theme', () => ({
 }));
 
 // Mock utility functions
-jest.mock('./logic/utils/string', () => ({
-  formatRelativeTime: jest.fn((date) => 'just now'),
+jest.mock("./logic/utils/string", () => ({
+  formatRelativeTime: jest.fn((date) => "just now"),
 }));
 
 // Mock common components
-jest.mock('./components/Card', () => {
+jest.mock("./components/Card", () => {
   return ({ children, onPress, ...props }) => {
-    const React = require('react');
-    return React.createElement('TouchableOpacity', 
+    const React = require("react");
+    return React.createElement(
+      "TouchableOpacity",
       { onPress, ...props },
       children
     );
   };
 });
 
-jest.mock('./components/Text', () => {
+jest.mock("./components/Text", () => {
   return ({ children, style, ...props }) => {
-    const React = require('react');
-    return React.createElement('Text', 
-      { style, ...props },
-      children
-    );
+    const React = require("react");
+    return React.createElement("Text", { style, ...props }, children);
   };
 });

@@ -1,6 +1,18 @@
+import { Platform } from "react-native";
+
+const getBaseUrl = () => {
+  if (__DEV__) {
+    if (Platform.OS === "android") {
+      return "http://192.168.0.206:8085";
+    }
+    return "http://localhost:8085";
+  }
+  return "http://localhost:8085";
+};
+
 export const API_CONFIG = {
-  BASE_URL: "http://localhost:8080",
-  WS_URL: "ws://localhost:8080",
+  BASE_URL: getBaseUrl(),
+  WS_URL: getBaseUrl().replace("http", "ws"),
   ENDPOINTS: {
     DOCUMENTS: "/documents",
   },
