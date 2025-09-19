@@ -18,9 +18,11 @@ export interface CreateDocumentRequest {
 }
 
 export interface NotificationData {
-  type: "document_created" | "document_updated" | "document_deleted";
-  document: Document;
-  timestamp: string;
+  Timestamp: string;
+  UserID: string;
+  UserName: string;
+  DocumentID: string;
+  DocumentTitle: string;
 }
 
 export interface OkResponse {

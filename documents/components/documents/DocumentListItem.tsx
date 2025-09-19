@@ -3,6 +3,7 @@ import { Document } from "@/types/document";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { formatRelativeTime } from "../../logic/utils/string";
 import Text from "../Text";
 
 interface DocumentListItemProps {
@@ -26,7 +27,7 @@ const DocumentListItem = ({ document, onPress }: DocumentListItemProps) => {
             <Text style={styles.version}>Version {document.Version}</Text>
           </View>
           <Text style={styles.updatedAt}>
-            Updated {new Date(document.UpdatedAt).toLocaleDateString()}
+            {formatRelativeTime(document.UpdatedAt)}
           </Text>
         </View>
 

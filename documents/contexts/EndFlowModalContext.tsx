@@ -68,7 +68,6 @@ function EndFlowModalProvider({
     title: "",
     message: "",
   });
-
   const showSuccess = ({
     title,
     message,

@@ -1,3 +1,5 @@
+import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
+import type { NotificationData } from "@/types/document";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
@@ -8,9 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "../constants";
-import { formatRelativeTime } from "../logic/utils";
-import type { NotificationData } from "../types";
+import { formatRelativeTime } from "../logic/utils/string";
 
 interface NotificationBannerProps {
   notification: NotificationData | null;
@@ -148,7 +148,7 @@ export function NotificationBanner({
               {notification.type === "document_deleted" && "Document Deleted"}
             </Text>
             <Text style={styles.subtitle} numberOfLines={1}>
-              {notification.document.title}
+              {notification.document.Title}
             </Text>
             <Text style={styles.time}>
               {formatRelativeTime(notification.timestamp)}

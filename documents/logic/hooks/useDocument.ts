@@ -5,13 +5,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 const useDocument = () => {
   const client = useQueryClient();
   const listDocuments = useQuery({
-    queryKey: ["document"],
-    queryFn: () => getDocumentsRequest({ queryKey: ["document"] }),
-  });
-
-  const createDocument = useMutation({
-    mutationFn: (document: CreateDocumentRequest) =>
-      createDocumentRequest(document),
+    queryKey: ["documents"],
+    queryFn: () => getDocumentsRequest({ queryKey: ["documents"] }),
   });
 
   const createDocumentRequest = async (
@@ -19,7 +14,7 @@ const useDocument = () => {
   ): Promise<OkResponse> => {
     try {
       setTimeout(() => {
-        client.setQueryData(["document"], (old: Document[]) => [
+        client.setQueryData(["documents"], (old: Document[]) => [
           ...old,
           {
             ...document,
@@ -36,6 +31,11 @@ const useDocument = () => {
     }
     return { ok: true };
   };
+
+  const createDocument = useMutation({
+    mutationFn: (document: CreateDocumentRequest) =>
+      createDocumentRequest(document),
+  });
 
   return {
     listDocuments,
