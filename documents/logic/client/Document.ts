@@ -8,6 +8,5 @@ export const getDocumentsRequest = async ({
   queryKey: string[];
 }): Promise<Document[]> => {
   const response = await request<Document[]>(API_CONFIG.ENDPOINTS.DOCUMENTS);
-  console.log("response", response);
   return response;
 };
