@@ -5,7 +5,7 @@ export const sortDocuments = (
   documents: Document[],
   sortOption: SortOption
 ): Document[] => {
-  if (!documents || documents.length === 0) return documents;
+  if (!documents || documents.length === 0) return [];
 
   const sortedDocuments = [...documents];
 
