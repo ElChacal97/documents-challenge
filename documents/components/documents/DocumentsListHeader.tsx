@@ -1,5 +1,5 @@
-import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
-import { Ionicons } from "@expo/vector-icons";
+import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -17,11 +17,13 @@ const DocumentsListHeader = ({
   return (
     <View style={styles.controls}>
       <TouchableOpacity style={styles.sortButton} onPress={onSortPress}>
+        <FontAwesome6 name="sort" size={16} color={COLORS.icon} />
         <Text style={styles.sortText}>Sort by</Text>
         <Ionicons
           name="chevron-down-outline"
           size={16}
-          color={COLORS.textSecondary}
+          color={COLORS.icon}
+          style={styles.sortIcon}
         />
       </TouchableOpacity>
 
@@ -36,7 +38,7 @@ const DocumentsListHeader = ({
           <Ionicons
             name="list-outline"
             size={20}
-            color={viewMode === "list" ? COLORS.primary : COLORS.textSecondary}
+            color={viewMode === "list" ? COLORS.primary : COLORS.icon}
           />
         </TouchableOpacity>
 
@@ -50,7 +52,7 @@ const DocumentsListHeader = ({
           <Ionicons
             name="grid-outline"
             size={20}
-            color={viewMode === "grid" ? COLORS.primary : COLORS.textSecondary}
+            color={viewMode === "grid" ? COLORS.primary : COLORS.icon}
           />
         </TouchableOpacity>
       </View>
@@ -67,28 +69,44 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
-    borderRadius: 8,
   },
   sortButton: {
     flexDirection: "row",
     alignItems: "center",
+    borderRadius: BORDER_RADIUS.md,
+    borderColor: COLORS.border,
+    borderWidth: 1,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: 10,
+    backgroundColor: COLORS.background,
   },
   sortText: {
     fontSize: FONT_SIZES.md,
     color: COLORS.text,
-    marginRight: 4,
+    marginHorizontal: SPACING.md,
   },
   viewToggle: {
     flexDirection: "row",
     backgroundColor: COLORS.surface,
-    borderRadius: 6,
-    padding: 2,
+    borderRadius: BORDER_RADIUS.md,
+    borderColor: COLORS.border,
+    borderWidth: 1,
+    width: 150,
   },
   toggleButton: {
     padding: SPACING.sm,
-    borderRadius: 4,
+    backgroundColor: COLORS.secondaryBackground,
+    borderRadius: BORDER_RADIUS.md,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   toggleButtonActive: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.background,
+  },
+  sortIcon: {
+    borderColor: COLORS.border,
+    borderLeftWidth: 2,
+    paddingLeft: SPACING.sm,
   },
 });

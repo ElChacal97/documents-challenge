@@ -1,4 +1,4 @@
-import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
+import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -27,7 +27,7 @@ const DocumentsHeader = ({
         >
           <Ionicons
             name="notifications-outline"
-            size={24}
+            size={20}
             color={COLORS.text}
           />
           {notificationCount > 0 && (
@@ -47,8 +47,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.surface,
     paddingHorizontal: SPACING.md,
-    paddingTop: SPACING.lg,
-    paddingBottom: SPACING.sm,
   },
   header: {
     flexDirection: "row",
@@ -63,13 +61,16 @@ const styles = StyleSheet.create({
   },
   notificationButton: {
     position: "relative",
-    padding: SPACING.xs,
+    padding: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
   badge: {
     position: "absolute",
-    top: 0,
-    right: 0,
-    backgroundColor: COLORS.secondary,
+    top: 3,
+    right: 3,
+    backgroundColor: COLORS.primary,
     borderRadius: 8,
     minWidth: 16,
     height: 16,
