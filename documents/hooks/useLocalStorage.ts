@@ -16,7 +16,6 @@ interface UseLocalStorageReturn<T> {
 }
 
 /**
- * Enhanced local storage hook with better error handling, persistence, and TypeScript support
  * @param key - The storage key
  * @param initialValue - Initial value if no stored value exists
  * @param options - Additional options for serialization and error handling
@@ -62,7 +61,6 @@ const useLocalStorage = <T>(
     loadValue();
   }, [key, deserialize, onError]);
 
-  // Set value with persistence
   const setValue = useCallback(
     async (newValue: T | ((prevValue: T) => T)) => {
       try {
@@ -82,14 +80,12 @@ const useLocalStorage = <T>(
         setError(error);
         onError(error);
 
-        // Revert state on error
         setValueState(value);
       }
     },
     [key, value, serialize, onError]
   );
 
-  // Remove value from storage
   const removeValue = useCallback(async () => {
     try {
       setError(null);

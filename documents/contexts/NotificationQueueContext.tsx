@@ -65,6 +65,7 @@ function notificationQueueReducer(
         queue: [],
         currentNotification: null,
         isShowing: false,
+        totalCount: 0,
       };
     default:
       return state;

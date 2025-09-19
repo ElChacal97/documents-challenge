@@ -7,16 +7,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface DocumentsHeaderProps {
   title: string;
-  onNotificationPress: () => void;
 }
 
-const DocumentsHeader = ({
-  title,
-  onNotificationPress,
-}: DocumentsHeaderProps) => {
+const DocumentsHeader = ({ title }: DocumentsHeaderProps) => {
   const { top } = useSafeAreaInsets();
   const {
     state: { totalCount },
+    clearQueue,
   } = useNotificationQueue();
   return (
     <View style={[styles.container, { paddingTop: top }]}>
@@ -24,7 +21,7 @@ const DocumentsHeader = ({
         <Text style={styles.title}>{title}</Text>
         <TouchableOpacity
           style={styles.notificationButton}
-          onPress={onNotificationPress}
+          onPress={clearQueue}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
           <Ionicons

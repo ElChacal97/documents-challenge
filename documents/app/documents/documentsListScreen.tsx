@@ -29,10 +29,6 @@ const DocumentsScreen = () => {
     setIsSortModalVisible(false);
   };
 
-  const handleNotificationPress = () => {
-    console.log("Notification pressed");
-  };
-
   const handleAddPress = () => {
     setIsAddDocumentModalVisible(true);
   };
@@ -43,10 +39,7 @@ const DocumentsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <DocumentsHeader
-        title="Documents"
-        onNotificationPress={handleNotificationPress}
-      />
+      <DocumentsHeader title="Documents" />
 
       <DocumentsListHeader
         viewMode={viewMode}
