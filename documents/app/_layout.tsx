@@ -1,3 +1,4 @@
+import { EndFlowModalProvider } from "@/contexts/EndFlowModalContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -16,23 +17,25 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <StatusBar style="dark" />
-        <Stack
-          screenOptions={{
-            headerShown: true,
-          }}
-        >
-          <Stack.Screen
-            name="index"
-            options={{
-              headerShown: false,
+        <EndFlowModalProvider>
+          <StatusBar style="dark" />
+          <Stack
+            screenOptions={{
+              headerShown: true,
             }}
-          />
-          <Stack.Screen
-            options={{ headerTitle: "Documents", headerTitleAlign: "left" }}
-            name="documents/documentsListScreen"
-          />
-        </Stack>
+          >
+            <Stack.Screen
+              name="index"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              options={{ headerTitle: "Documents", headerTitleAlign: "left" }}
+              name="documents/documentsListScreen"
+            />
+          </Stack>
+        </EndFlowModalProvider>
       </QueryClientProvider>
     </SafeAreaProvider>
   );

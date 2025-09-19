@@ -1,6 +1,7 @@
 import AddDocumentButton from "@/components/documents/AddDocumentButton";
 import DocumentsHeader from "@/components/documents/DocumentsHeader";
 import DocumentsList from "@/components/documents/DocumentsList";
+import DocumentsListHeader from "@/components/documents/DocumentsListHeader";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -23,11 +24,14 @@ const DocumentsScreen = () => {
     <View style={styles.container}>
       <DocumentsHeader
         title="Documents"
+        onNotificationPress={handleNotificationPress}
+        notificationCount={1}
+      />
+
+      <DocumentsListHeader
         viewMode={viewMode}
         onViewModeChange={setViewMode}
         onSortPress={handleSortPress}
-        onNotificationPress={handleNotificationPress}
-        notificationCount={1}
       />
 
       <DocumentsList viewMode={viewMode} />

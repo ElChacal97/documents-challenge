@@ -64,3 +64,6 @@ The app integrates with the testing server from the [sample repository](https://
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## NOTES
+
+- The documents endpoint does not have pagination.
+-
