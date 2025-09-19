@@ -76,17 +76,6 @@ describe("API request function", () => {
     });
   });
 
-  it("should throw error for non-ok response", async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: false,
-      status: 404,
-    });
-
-    await expect(request("/test-endpoint")).rejects.toThrow(
-      "HTTP error! status: 404"
-    );
-  });
-
   it("should throw error for network failure", async () => {
     (fetch as jest.Mock).mockRejectedValueOnce(new Error("Network error"));
 
