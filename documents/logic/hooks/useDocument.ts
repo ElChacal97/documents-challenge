@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const useDocument = () => {
   const client = useQueryClient();
+
   const listDocuments = useQuery({
     queryKey: ["documents"],
     queryFn: () => getDocumentsRequest({ queryKey: ["documents"] }),
