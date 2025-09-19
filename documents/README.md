@@ -65,5 +65,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## NOTES
 
+- Used Expo managed project for simplicity and speed.
 - The documents endpoint does not have pagination.
-- Added modalize library to make drawer modals
+- Added modalize library to make drawer modals.
+- For notifications I would use Server sent events instead of Websocket for simplicity and performance, no need to have a two way communication.
+- Installed expo-document-picker to handle document picking.
+- Installed MMKV just for preference and performance to handle local storage.
+- Installed react query for server state management and global state.

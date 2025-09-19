@@ -1,3 +1,4 @@
+import EndFlowModal from "@/components/modals/EndFlowModal";
 import { EndFlowModalProvider } from "@/contexts/EndFlowModalContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
@@ -38,6 +39,7 @@ export default function RootLayout() {
                 name="documents/documentsListScreen"
               />
             </Stack>
+            <EndFlowModal />
           </EndFlowModalProvider>
         </QueryClientProvider>
       </GestureHandlerRootView>

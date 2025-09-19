@@ -19,10 +19,15 @@ const DocumentListItem = ({ document, onPress }: DocumentListItemProps) => {
     >
       <View style={styles.content}>
         <View style={styles.header}>
-          <Text style={styles.title} numberOfLines={2}>
-            {document.Title}
+          <View style={styles.titleContainer}>
+            <Text style={styles.title} numberOfLines={2}>
+              {document.Title}
+            </Text>
+            <Text style={styles.version}>Version {document.Version}</Text>
+          </View>
+          <Text style={styles.updatedAt}>
+            Updated {new Date(document.UpdatedAt).toLocaleDateString()}
           </Text>
-          <Text style={styles.version}>Version {document.Version}</Text>
         </View>
 
         <View style={styles.section}>
@@ -32,7 +37,7 @@ const DocumentListItem = ({ document, onPress }: DocumentListItemProps) => {
               <Text style={styles.sectionTitle}>Contributors</Text>
             </View>
             <View style={styles.sectionContentWrapper}>
-              {document.Contributors.map((contributor) => (
+              {document.Contributors?.map((contributor) => (
                 <Text
                   style={styles.sectionContent}
                   key={contributor.ID}
@@ -89,10 +94,16 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     marginBottom: SPACING.md,
     flex: 1,
+  },
+  titleContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
   },
   title: {
     fontSize: FONT_SIZES.lg,
@@ -104,7 +115,13 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.sm,
     color: COLORS.textSecondary,
     marginLeft: SPACING.sm,
-    flexGrow: 1,
+  },
+  updatedAt: {
+    fontSize: FONT_SIZES.xs,
+    color: COLORS.textSecondary,
+    textAlign: "right",
+    marginTop: 2,
+    fontStyle: "italic",
   },
   section: {
     marginBottom: SPACING.sm,

@@ -1,7 +1,7 @@
 export interface Document {
   ID: string;
   Attachments: string[];
-  Contributors: {
+  Contributors?: {
     ID: string;
     Name: string;
   }[];
@@ -12,12 +12,17 @@ export interface Document {
 }
 
 export interface CreateDocumentRequest {
-  title: string;
-  content: string;
+  Title: string;
+  Version: string;
+  Attachments: string[];
 }
 
 export interface NotificationData {
   type: "document_created" | "document_updated" | "document_deleted";
   document: Document;
   timestamp: string;
+}
+
+export interface OkResponse {
+  ok: boolean;
 }
