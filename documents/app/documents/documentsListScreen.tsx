@@ -10,8 +10,10 @@ import { COLORS } from "@/constants/theme";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
+export type ViewMode = "list" | "grid";
+
 const DocumentsScreen = () => {
-  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [sortOption, setSortOption] = useState<SortOption>("date-desc");
   const [isSortModalVisible, setIsSortModalVisible] = useState(false);
   const [isAddDocumentModalVisible, setIsAddDocumentModalVisible] =

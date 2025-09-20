@@ -1,3 +1,4 @@
+import { ViewMode } from "@/app/documents/documentsListScreen";
 import { BORDER_RADIUS, COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import React from "react";
@@ -6,8 +7,8 @@ import { SortOption } from "./modals/SortDocumentModal";
 
 interface DocumentsListHeaderProps {
   onSortPress: () => void;
-  onViewModeChange: (mode: "list" | "grid") => void;
-  viewMode: "list" | "grid";
+  onViewModeChange: (mode: ViewMode) => void;
+  viewMode: ViewMode;
   currentSort?: SortOption;
 }
 

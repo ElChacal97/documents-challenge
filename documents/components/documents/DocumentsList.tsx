@@ -1,3 +1,4 @@
+import { ViewMode } from "@/app/documents/documentsListScreen";
 import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
 import useDocument from "@/logic/hooks/useDocument";
 import { sortDocuments } from "@/logic/utils/sorting";
@@ -15,12 +16,11 @@ import {
 } from "react-native";
 import FlatList from "../FlatList";
 import Loader from "../Loader";
-import DocumentGridItem from "./DocumentGridItem";
-import DocumentListItem from "./DocumentListItem";
+import DocumentItem from "./DocumentItem";
 import { SortOption } from "./modals/SortDocumentModal";
 
 interface DocumentsListProps {
-  viewMode: "list" | "grid";
+  viewMode: ViewMode;
   sortOption: SortOption;
 }
 
@@ -55,10 +55,13 @@ const DocumentsList = ({
   };
 
   const renderDocument = ({ item }: { item: Document }) => {
-    if (viewMode === "grid") {
-      return <DocumentGridItem document={item} onPress={onDocumentPress} />;
-    }
-    return <DocumentListItem document={item} onPress={onDocumentPress} />;
+    return (
+      <DocumentItem
+        document={item}
+        onPress={onDocumentPress}
+        viewMode={viewMode}
+      />
+    );
   };
 
   const renderEmptyState = () => (
