@@ -67,11 +67,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Used Expo managed project for simplicity and speed.
 - The documents endpoint does not have pagination.
+- Noticed the API does not have any authentication or security, assumed it's because it's not intended for production use and just a test.
 - Added modalize library to make drawer modals.
-- For notifications I would use Server sent events instead of Websocket for simplicity and performance, no need to have a two way communication.
+- For notifications I would use Server Sent Events (SSE) instead of Websocket for simplicity and performance, no need to have a two way communication.
 - Installed expo-document-picker to handle document picking.
 - Installed react query for server state management and global state.
 - Implemented tanstack/react-query-persist-client and tanstack/query-async-storage-persister to manage query local storage, it was mainly a personal decision since I just found it and seems a very simple, easy solution.
 - I decided to show the dates when each document was last updated in the DocumentListItem.
 - I decided to clear all the notifications queue when pressing the notification bell, ideally it would open a notifications list marking which ones are seen or not and update the list as the user scrolls and sees them, I think that would be stepping too far from the required and optional requirements.
-- I'm aware some more code could be abstracted or separated to improve maintainability, I chose not to do it for simplicity reasons and avoid over-engineering since it's just being used once.
+- Decided to add the share functionality on press of a document item, since we don't have any details screen to open, I thought that's the option that makes more sense, adding a share button on each item doesn't look too good and would be hard to press. In a complete app the onPress could for example open a drawer modal with different options to handle specific document features (share, delete, edit, etc.)
