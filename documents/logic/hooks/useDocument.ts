@@ -1,6 +1,7 @@
 import { getDocumentsRequest } from "@/logic/client/Document";
 import { CreateDocumentRequest, OkResponse } from "@/types/document";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { documentLogic } from "../business/documentLogic";
 
 const useDocument = () => {
   const client = useQueryClient();
@@ -15,15 +16,16 @@ const useDocument = () => {
   ): Promise<OkResponse> => {
     try {
       setTimeout(() => {
-        client.setQueryData(["documents"], (old: Document[]) => [
+        const errors = documentLogic.validateDocument(document);
+        if (errors.length > 0) {
+          throw new Error(errors.join(", "));
+        }
+
+        const newDoc = documentLogic.formatDocumentForCreation(document);
+
+        client.setQueryData(["documents"], (old: Document[] = []) => [
           ...old,
-          {
-            ...document,
-            ID: Math.random().toString(36).substring(2, 15),
-            Contributors: [],
-            CreatedAt: new Date().toISOString(),
-            UpdatedAt: new Date().toISOString(),
-          },
+          newDoc,
         ]);
       }, 1000);
     } catch (error) {
