@@ -52,13 +52,6 @@ npm run test:coverage
 npm run lint
 ```
 
-## API Integration
-
-The app integrates with the testing server from the [sample repository](https://github.com/holdedlab/frontend-challenge):
-
-- **HTTP API**: `https://frontend-challenge.vercel.app/api/documents`
-- **WebSocket**: `wss://frontend-challenge.vercel.app/ws`
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
