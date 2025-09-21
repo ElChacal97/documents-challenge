@@ -1,23 +1,16 @@
 import { ViewMode } from "@/app/documents/documentsListScreen";
-import { COLORS, FONT_SIZES, SPACING } from "@/constants/theme";
+import { COLORS, SPACING } from "@/constants/theme";
 import useDocument from "@/logic/hooks/useDocument";
 import { sortDocuments } from "@/logic/utils/sorting";
 import { Document } from "@/types/document";
-import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useMemo } from "react";
-import {
-  Alert,
-  RefreshControl,
-  Share,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, RefreshControl, Share, StyleSheet } from "react-native";
 import FlatList from "../FlatList";
 import Loader from "../Loader";
 import DocumentItem from "./DocumentItem";
 import { SortOption } from "./modals/SortDocumentModal";
+import ErrorState from "../ErrorState";
+import EmptyState from "../EmptyState";
 
 interface DocumentsListProps {
   viewMode: ViewMode;
@@ -65,30 +58,18 @@ const DocumentsList = ({
   };
 
   const renderEmptyState = () => (
-    <View style={styles.emptyContainer}>
-      <Ionicons
-        name="document-outline"
-        size={64}
-        color={COLORS.textSecondary}
-      />
-      <Text style={styles.emptyTitle}>No documents found</Text>
-      <Text style={styles.emptySubtitle}>
-        Create your first document to get started
-      </Text>
-    </View>
+    <EmptyState
+      title="No documents found"
+      subtitle="Create your first document to get started"
+    />
   );
 
   const renderErrorState = () => (
-    <View style={styles.errorContainer}>
-      <Ionicons name="alert-circle-outline" size={64} color={COLORS.error} />
-      <Text style={styles.errorTitle}>Failed to load documents</Text>
-      <Text style={styles.errorSubtitle}>
-        Please check your connection and try again
-      </Text>
-      <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
-        <Text style={styles.retryButtonText}>Retry</Text>
-      </TouchableOpacity>
-    </View>
+    <ErrorState
+      title="Failed to load documents"
+      subtitle="Please check your connection and try again"
+      onRetry={handleRefresh}
+    />
   );
 
   if (isLoading || isRefetching) {
@@ -133,55 +114,5 @@ const styles = StyleSheet.create({
   },
   gridRow: {
     justifyContent: "space-between",
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: SPACING.xl,
-  },
-  emptyTitle: {
-    fontSize: FONT_SIZES.lg,
-    fontWeight: "600",
-    color: COLORS.text,
-    marginTop: SPACING.md,
-    marginBottom: SPACING.sm,
-  },
-  emptySubtitle: {
-    fontSize: FONT_SIZES.md,
-    color: COLORS.textSecondary,
-    textAlign: "center",
-    lineHeight: 20,
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: SPACING.xl,
-  },
-  errorTitle: {
-    fontSize: FONT_SIZES.lg,
-    fontWeight: "600",
-    color: COLORS.error,
-    marginTop: SPACING.md,
-    marginBottom: SPACING.sm,
-  },
-  errorSubtitle: {
-    fontSize: FONT_SIZES.md,
-    color: COLORS.textSecondary,
-    textAlign: "center",
-    lineHeight: 20,
-    marginBottom: SPACING.lg,
-  },
-  retryButton: {
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
-    borderRadius: 8,
-  },
-  retryButtonText: {
-    color: COLORS.surface,
-    fontSize: FONT_SIZES.md,
-    fontWeight: "600",
   },
 });
