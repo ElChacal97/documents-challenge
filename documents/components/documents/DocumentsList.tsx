@@ -101,6 +101,7 @@ const DocumentsList = ({
 
   return (
     <FlatList
+      testID="flat-list"
       data={sortedDocuments}
       renderItem={renderDocument}
       keyExtractor={(item) => item.ID}

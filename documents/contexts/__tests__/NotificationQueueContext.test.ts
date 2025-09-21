@@ -1,7 +1,5 @@
 import { NotificationItem } from "@/types/document";
 
-// Import the reducer function and types directly
-// We'll need to extract these from the context file for testing
 interface NotificationQueueState {
   queue: NotificationItem[];
   currentNotification: NotificationItem | null;

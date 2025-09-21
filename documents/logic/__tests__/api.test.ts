@@ -1,7 +1,6 @@
 import { API_CONFIG } from "@/constants/api";
 import { request } from "../api";
 
-// Mock fetch globally
 global.fetch = jest.fn();
 
 describe("API request function", () => {

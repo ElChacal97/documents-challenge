@@ -3,7 +3,6 @@ import { Document } from "@/types/document";
 import { request } from "../../api";
 import { getDocumentsRequest } from "../Document";
 
-// Mock the request function
 jest.mock("../../api");
 
 const mockRequest = request as jest.MockedFunction<typeof request>;

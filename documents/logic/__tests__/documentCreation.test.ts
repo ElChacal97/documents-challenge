@@ -1,9 +1,7 @@
 import { CreateDocumentRequest, Document } from "@/types/document";
 
-// Mock the useDocument hook's createDocumentRequest function
 const mockCreateDocumentRequest = jest.fn();
 
-// Mock setTimeout to control timing
 jest.useFakeTimers();
 
 describe("Document Creation Integration", () => {
@@ -84,7 +82,6 @@ describe("Document Creation Integration", () => {
       UpdatedAt: expect.any(String),
     };
 
-    // Simulate the transformation
     const transformedDocument: Document = {
       ...document,
       ID: "test-id",

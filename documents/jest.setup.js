@@ -1,6 +1,10 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react/no-children-prop */
 /* eslint-disable no-undef */
-//import jest from "jest";
 // Basic Jest setup for testing
+
+// Define global variables
+global.__DEV__ = true;
 
 // Mock React Native
 jest.mock("react-native", () => {
