@@ -100,7 +100,7 @@ const AddDocumentModal = ({ isVisible, onClose }: AddDocumentModalProps) => {
             <Ionicons name="close" size={30} color={COLORS.text} />
           </TouchableOpacity>
         </View>
-        <Text style={styles.subtitle}>Document informations</Text>
+        <Text style={styles.subtitle}>Document information</Text>
 
         <View style={styles.form}>
           <View style={styles.fieldContainer}>
