@@ -60,7 +60,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Used Expo managed project for simplicity and speed.
 - The documents endpoint does not have pagination.
-- Noticed the API does not have any authentication or security, assumed it's because it's not intended for production use and just a test.
+- Noticed the API does not have any authentication or security, assumed it's because it's not intended for production use and just a test. I did the same with the API url and query keys, of course in production they should not be exposed like that.
 - For the architecture design for maintainability, decided to combine aspects of clean architecture and MVVM patterns. Implemented a business logic layer, a client layer for data fetching and a hooks layer as a ViewModel. This approach decouples the logic and data side from the UI views and components.
 - Added modalize library to make drawer modals.
 - For notifications I would use Server Sent Events (SSE) instead of Websocket for simplicity and performance, no need to have a two way communication.
