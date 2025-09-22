@@ -1,4 +1,5 @@
 import { API_CONFIG } from "@/constants/api";
+import { webSocketRequest } from "@/logic/api";
 import { NotificationItem } from "@/types/document";
 import {
   createContext,
@@ -120,33 +121,12 @@ export function NotificationQueueProvider({
   }, [state.queue.length, state.isShowing, state.currentNotification]);
 
   useEffect(() => {
-    const websocket = new WebSocket(
-      API_CONFIG.WS_URL + API_CONFIG.WEBSOCKET_EVENTS.NOTIFICATION
-    );
-
-    websocket.onopen = () => {
-      console.log("WebSocket connected for notifications");
-    };
-
-    websocket.onmessage = (event: MessageEvent) => {
-      try {
-        const data: NotificationItem = JSON.parse(event.data);
-
-        if (data) {
-          addNotification(data);
-        }
-      } catch (error) {
-        console.error("Error parsing notification data:", error);
+    const websocket = webSocketRequest(
+      API_CONFIG.WS_URL + API_CONFIG.WEBSOCKET_EVENTS.NOTIFICATION,
+      (data: NotificationItem) => {
+        addNotification(data);
       }
-    };
-
-    websocket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    websocket.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
+    );
 
     return () => {
       websocket.close();

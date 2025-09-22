@@ -50,3 +50,38 @@ export const request = async <T>(
     throw error;
   }
 };
+
+export const webSocketRequest = <T>(
+  endpoint: string,
+  onSuccess: (data: T) => void,
+  onError?: (error: Error) => void
+) => {
+  const websocket = new WebSocket(endpoint);
+
+  websocket.onopen = () => {
+    console.log("WebSocket connected for notifications");
+  };
+
+  websocket.onmessage = (event: MessageEvent) => {
+    try {
+      const data: T = JSON.parse(event.data);
+
+      if (data) {
+        onSuccess(data);
+      }
+    } catch (error) {
+      console.error("Error parsing data:", error);
+      onError?.(error as Error);
+    }
+  };
+
+  websocket.onerror = (error) => {
+    console.error("WebSocket error:", error);
+  };
+
+  websocket.onclose = () => {
+    console.log("WebSocket connection closed");
+  };
+
+  return websocket;
+};
